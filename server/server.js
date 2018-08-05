@@ -18,11 +18,21 @@ app.use(express.static(publicPath));
 io.on('connection', socket => {
     console.log('New user connected');
 
+    socket.emit('newMessage', {
+        from: 'john',
+        text: 'Hello. How are you?',
+        createdAt: new Date().getTime()
+    });
+
+    socket.on('createMessage', message => {
+        message.createdAt = new Date().getTime();
+        console.log(message);
+    });
+
     socket.on('disconnect', () => {
         console.log('Client disconnect');
     })
 });
-
 
 server.listen(port, () => {
     console.log(`Server listening at ${port}`);
