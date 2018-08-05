@@ -2,12 +2,6 @@ var socket = io(); // client makes a request to server to open a web socket and 
         
 socket.on('connect', function() {
     console.log('Connected to server');
-
-    socket.emit('createMessage', {
-        from: 'hugh',
-        text: 'hello back'
-    });
-
 });
 
 socket.on('disconnect', function() {
