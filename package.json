@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --mode production",
     "start": "node server/server.js",
     "test": "mocha server/**/*.test.js",
     "test-watch": "nodemon --exec \"npm test\""
@@ -15,12 +16,19 @@
   "author": "Hugh Nguyen",
   "license": "ISC",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "express": "^4.16.3",
     "socket.io": "^2.1.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
     "expect": "^23.4.0",
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.3"
+    "nodemon": "^1.18.3",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0"
   }
 }
