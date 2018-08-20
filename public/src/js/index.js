@@ -10,12 +10,14 @@ const clearInput = () => {
 };
 const getMessage = () => messageInput.value;
 const renderMessage = message => {
-    const markup = `<li>${message.from}: ${message.text}</li>`;
+    const formattedTime = moment(message.createdAt).format('h:mm a');
+    const markup = `<li>${message.from} (${formattedTime}): ${message.text}</li>`;
     messages.insertAdjacentHTML('beforeend', markup);
 };
 
 const renderLocationMessage = message => {
-    const markup = `<li>${message.from} <a href="${message.url}" target="_blank">My current location</a></li>`;
+    const formattedTime = moment(message.createdAt).format('h:mm a');
+    const markup = `<li>${message.from} (${formattedTime}): <a href="${message.url}" target="_blank">My current location</a></li>`;
     messages.insertAdjacentHTML('beforeend', markup);
 };
 

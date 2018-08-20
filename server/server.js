@@ -41,7 +41,7 @@ io.on('connection', socket => {
 
     socket.on('disconnect', () => {
         console.log('Client disconnect');
-    })
+    });
 });
 
 server.listen(port, () => {
