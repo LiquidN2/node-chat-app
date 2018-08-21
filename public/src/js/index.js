@@ -43,26 +43,57 @@ const renderMessage = type => {
 const renderMessageText = renderMessage('text');
 const renderMessageLocation = renderMessage('location');
 
+const scrollToBottom = () => {
+    const messages = document.getElementById('messages');
+    const clientHeight = messages.clientHeight;
+    const scrollTop = messages.scrollTop;
+    const scrollHeight = messages.scrollHeight;
+
+    let newMessage, prevMessage;
+    let newMessageHeight = 0;
+    let prevMessageHeight = 0;
+
+    if (messages.children.length > 0) {
+        newMessage = messages.lastElementChild;
+        newMessageHeight = newMessage.offsetHeight;
+    }
+
+    if (messages.children.length > 1) {
+        prevMessage = newMessage.previousElementSibling;
+        prevMessageHeight = prevMessage.offsetHeight;
+    }
+
+    if (clientHeight + scrollTop + newMessageHeight + prevMessageHeight >= scrollHeight) {
+        console.log('should scroll');
+        $('#messages').scrollTop(scrollHeight);
+    }
+};
+
 socket.on('connect', () => console.log('Connected to server'));
 
 socket.on('newMessage', message => {
     if (message) renderMessageText(message);
+    scrollToBottom();
 });
 
 socket.on('newLocationMessage', message => {
     if (message) renderMessageLocation(message);
+    scrollToBottom();
 });
 
 form.addEventListener('submit', event => {
     event.preventDefault();
 
     const message = getMessageInput();
-    socket.emit('createMessage', {
-        from: 'Hugh',
-        text: message
-    }, function (data) {
-        console.log('Got it!', data);
-    });
+
+    if (message) {
+        socket.emit('createMessage', {
+            from: 'Hugh',
+            text: message
+        }, function (data) {
+            console.log('Got it!', data);
+        });
+    }
 
     clearMessageInput();
 });
