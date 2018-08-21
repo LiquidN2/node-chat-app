@@ -1,11 +1,14 @@
 const path = require('path');
 
 module.exports = {
-    entry: ['babel-polyfill', './public/src/js/index.js'],
+    entry: {
+        // index: ['babel-polyfill', './public/src/js/index.js'],
+        chat: ['babel-polyfill', './public/src/js/chat.js']
+    },
     
     output: {
         path: path.resolve(__dirname, 'public'),
-        filename: 'dist/js/bundle.js'
+        filename: 'dist/js/[name].js'
     },
 
     module: {
