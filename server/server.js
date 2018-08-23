@@ -45,20 +45,21 @@ io.on('connection', socket => {
     });
 
     socket.on('createMessage', (message, callback) => {
-        // message.createdAt = new Date().getTime();
-        // console.log(message);
+        const user = users.getUser(socket.id);
 
-        // emit to all connected sockets
-        io.emit('newMessage', generateMessage(message.from, message.text));
+        if (user && isRealString(message.text)) {
+            io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+        }
+        
         callback('This is from the server');
-
-        // emit to all but the socket sending the createMessage event
-        // socket.broadcast.emit('newMessage', generateMessage(message.from, message.text));
     });
     
     socket.on('createLocationMessage', coords => {
-        // io.emit('newMessage', generateMessage('Admin', `${coords.latitude}, ${coords.longitude}`));
-        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+        const user = users.getUser(socket.id);
+
+        if (user && coords) {
+            io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        }
     });
 
     // when client disconnect with chat server 

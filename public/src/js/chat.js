@@ -57,7 +57,6 @@ form.addEventListener('submit', event => {
 
     if (message) {
         socket.emit('createMessage', {
-            from: 'Hugh',
             text: message
         }, function (data) {
             console.log('Got it!', data);
