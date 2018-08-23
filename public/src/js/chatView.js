@@ -62,7 +62,7 @@ const scrollToBottom = () => {
     }
 
     if (clientHeight + scrollTop + newMessageHeight + prevMessageHeight >= scrollHeight) {
-        console.log('should scroll');
+        // console.log('should scroll');
         $('#messages').scrollTop(scrollHeight);
     }
 };

@@ -1,8 +1,44 @@
 import { form, locationBtn, clearMessageInput, getMessageInput, renderMessageText, renderMessageLocation, scrollToBottom } from './chatView';
 
+const removeAllChild = node => {
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
+};
+
+const userListContainer = document.getElementById('users');
+
 const socket = io(); // client makes a request to server to open a web socket and keeps that socket open
 
-socket.on('connect', () => console.log('Connected to server'));
+// when client is connected with chat server
+socket.on('connect', () => {
+    const params = jQuery.deparam(window.location.search); // convert search params to object
+    socket.emit('join', params, err => {
+        if (err) {
+            alert(err);
+            window.location.href = '/';
+        } else {
+            console.log('No error');
+        }
+    });
+});
+
+socket.on('disconnect', () => console.log('Disconnected from server'));
+
+socket.on('updateUserList', users => {
+    const userList = document.createElement('ol');
+    
+    removeAllChild(userListContainer);
+    
+    users.forEach(user => {
+        const node = document.createElement('li');
+        const textnode = document.createTextNode(user);
+        node.appendChild(textnode);
+        userList.appendChild(node);
+    });
+    
+    userListContainer.appendChild(userList);
+});
 
 socket.on('newMessage', message => {
     if (message) renderMessageText(message);
@@ -54,4 +90,3 @@ locationBtn.addEventListener('click', event => {
     })
 });
 
-socket.on('disconnect', () => console.log('Disconnected from server'));

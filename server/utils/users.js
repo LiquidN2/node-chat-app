@@ -1,0 +1,36 @@
+class Users {
+    constructor() {
+        this.users = [];
+    }
+
+    addUser(id, name, room) {
+        const user = {
+            id: id.toString(),
+            name, 
+            room
+        };
+        this.users.push(user);
+        return user;
+    }
+
+    getUser(id) {
+        return this.users.filter(user => user.id === id)[0];
+    }
+
+    getUserList(room) {
+        const userList = this.users.filter(user => user.room === room);
+        const userNames = userList.map(user => user.name);
+        // return userList;
+        return userNames;
+    }
+
+    removeUser(id) {
+        const userToRemove = this.getUser(id);
+        if (userToRemove) {
+            this.users = this.users.filter(user => user.id !== id);
+            return userToRemove;
+        }
+    }
+}
+
+module.exports = { Users };
