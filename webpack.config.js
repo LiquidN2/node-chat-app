@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        // index: ['babel-polyfill', './public/src/js/index.js'],
+        index: ['babel-polyfill', './public/src/js/index.js'],
         chat: ['babel-polyfill', './public/src/js/chat.js']
     },
     

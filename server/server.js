@@ -20,25 +20,32 @@ io.on('connection', socket => {
     console.log('New user connected');
 
     socket.on('join', (params, callback) => {
+        params.name = params.name.trim();
+
+        if (params.activeroom !== '') {
+            params.room = params.activeroom;
+        } else {
+            params.room = params.room.trim();
+        }
+
         if (!isRealString(params.name) || !isRealString(params.room)) {
             return callback('User name and room name are required!');
-        } 
-        
+        }
+
+        if(users.isExisting(params.name, params.room)) {
+            return callback('This name has been used for this room. Please use a different name or try a different room');
+        }
+
         socket.join(params.room);
         users.removeUser(socket.id);
         users.addUser(socket.id, params.name, params.room);
-
-        //socket.leave(params.room);
-        // io.emit -> io.to(params.room).emit
-        // socket.broadcast.emit -> socket.broadcast.to(params.room).emit
-        // socket.emit
         
         io.to(params.room).emit('updateUserList', users.getUserList(params.room));
 
         // emit to new connection
         socket.emit('newMessage', generateMessage('Admin', `Welcome to the chat app - room ${params.room}`));
+
         // emit to all but the new connection
-        // socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
         socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined`));
 
         callback();
@@ -62,6 +69,8 @@ io.on('connection', socket => {
         }
     });
 
+    socket.emit('updateActiveRooms', users.getRoomList());
+    
     // when client disconnect with chat server 
     socket.on('disconnect', () => {
         const user = users.removeUser(socket.id);

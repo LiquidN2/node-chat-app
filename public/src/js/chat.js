@@ -13,6 +13,7 @@ const socket = io(); // client makes a request to server to open a web socket an
 // when client is connected with chat server
 socket.on('connect', () => {
     const params = jQuery.deparam(window.location.search); // convert search params to object
+
     socket.emit('join', params, err => {
         if (err) {
             alert(err);

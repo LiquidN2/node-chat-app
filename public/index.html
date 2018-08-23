@@ -11,23 +11,30 @@
 
 <body class="centered-form">
     <div class="centered-form__form">
-        <form action="/chat.html">
+        <form action="/chat.html" id="join-chat" name="join-chat">
             <div class="form-field">
                 <h3>Join a chat</h3>
             </div>
             <div class="form-field">
                 <label for="name">Display name</label>
-                <input type="text" name="name" id="name" autofocus/>
+                <input type="text" name="name" id="name" autofocus required/>
             </div>
             <div class="form-field">
                 <label for="room">Room name</label>
                 <input type="text" name="room" id="room" />
             </div>
             <div class="form-field">
+                <label for="activeroom">Active room(s)</label>
+                <select name="activeroom" id="activeroom"></select>
+            </div>
+            <div class="form-field">
                 <button>Join</button>
             </div>
         </form>
     </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/dist/js/index.js"></script>
 </body>
 
 </html>

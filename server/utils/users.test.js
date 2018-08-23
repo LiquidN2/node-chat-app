@@ -69,4 +69,9 @@ describe('class Users', () => {
         const usersInRoomA = users.getUserList('A');
         expect(usersInRoomA.length).toEqual(2);
     });
+
+    it('should return unique rooms', () => {
+        const uniqueRooms = users.getRoomList();
+        expect(uniqueRooms.length).toEqual(3);
+    });
 });

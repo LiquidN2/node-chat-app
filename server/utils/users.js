@@ -1,3 +1,5 @@
+const {removeDuplicates} = require('./helpers');
+
 class Users {
     constructor() {
         this.users = [];
@@ -30,6 +32,26 @@ class Users {
             this.users = this.users.filter(user => user.id !== id);
             return userToRemove;
         }
+    }
+
+    getRoomList() {
+        const rooms = this.users.map(user => user.room);
+        const uniqueRooms = removeDuplicates(rooms);
+        return uniqueRooms;
+    }
+
+    getUserName(name) {
+        return this.users.filter(user => user.name === name);
+    }
+
+    isExisting(name, room) {
+        const existingUser = this.users.filter(user => {
+            if (user.room === room && user.name === name) {
+                return true;
+            }
+        });
+
+        return existingUser.length;
     }
 }
 
